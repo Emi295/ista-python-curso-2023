@@ -11,18 +11,18 @@ def hola_mundo():
 @app.route("/mostrar_alumnos")
 def lista_alumnos():
     nombre_archivo = "/workspaces/ista-python-curso-2023/datos/estudiante.csv"
-    with open(nombre_archivo,'r') as estudiantes:
+    with open(nombre_archivo,'r',encoding='utf-8') as estudiantes:
         lector = csv.reader(estudiantes, delimiter=",")
         #Omite los encabezados
         next(lector,None)
-        filas = {}
+        filas = []
         for fila in lector:
             nombre1 = fila[3]
             nombre2 = fila[4] 
             apellido1= fila[1]
             apellido2= fila[2]
-            filas.append((nombre1,nombre2,apellido1,apellido2))
-    # return f'{nombre1}{nombre2}{apellido1}{apellido2}'
+            filas.append(nombre1+" "+nombre2+" "+apellido1+" "+apellido2)
+    filas.sort()
     return filas
 
 @app.route("/registrar_asistencia", methods=["POST"])

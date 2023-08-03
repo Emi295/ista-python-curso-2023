@@ -37,5 +37,9 @@ def agregar_asistencia():
 
 @app.route("/total_asistencias")
 def contar_asistencia():
-
-    return "Asistencia registrada con exito"
+    filas_csv = []
+    with open('/workspaces/ista-python-curso-2023/datos/asistencia.csv','r') as asistencia:
+        reader = csv.reader(asistencia)
+        filas_csv = [fila for fila in reader]
+    columnas = filas_csv.pop(0)
+    return f'El total de asistencias es {len(filas_csv)}'

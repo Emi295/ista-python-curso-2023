@@ -37,9 +37,30 @@ def agregar_asistencia():
 
 @app.route("/total_asistencias")
 def contar_asistencia():
+
+    parametros = flask.request.args
+    
+    curso_esperado = parametros['curso']
+    cedula_est = parametros['cedula']
+
+    asistencia = 0
+    
+    if curso_esperado not in ['java','python','ccss']:
+        return 'Curso no existe', 400
+     
     filas_csv = []
+
     with open('/workspaces/ista-python-curso-2023/datos/asistencia.csv','r') as asistencia:
         reader = csv.reader(asistencia)
         filas_csv = [fila for fila in reader]
+
     columnas = filas_csv.pop(0)
-    return f'El total de asistencias es {len(filas_csv)}'
+
+    lista_filtrada = []
+    for fila in filas_csv:
+        if fila[0]==cedula_est and fila[1]==curso_esperado:
+            lista_filtrada.append(fila)
+        else:
+            return f'0'
+
+    return f'El total de asistencias es {len(lista_filtrada)}, para la cedula: {cedula_est} en el curso: {curso_esperado}'

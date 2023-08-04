@@ -49,11 +49,13 @@ def contar_asistencia():
     
     curso_esperado = parametros['curso']
     cedula_est = parametros['cedula']
-    
-    if curso_esperado not in ['java','python','ccss']:
-        return 'Curso no existe', 400
-     
+
     filas_csv = []
+
+    curso = curso_existente(curso_esperado)
+
+    if curso is False:
+        return f'EL CURSO NO EXISTE',404
 
     with open('/workspaces/ista-python-curso-2023/datos/asistencia.csv','r') as asistencia:
         reader = csv.reader(asistencia)
@@ -70,8 +72,11 @@ def contar_asistencia():
 
     return f'El total de asistencias es {len(lista_filtrada)}, para la cedula: {cedula_est} en el curso: {curso_esperado}'
 
-
-
+def curso_existente(curso):
+    if curso not in ['java','python','ccss']:
+        return False
+    return True
+     
 @app.route("/reporte_alumnos")
 def tabla_alumnos():
     encabezados, filas_csv = cargar_filas_base_datos()

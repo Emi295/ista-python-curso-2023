@@ -3,6 +3,13 @@ import csv
 
 app = flask.Flask(__name__)
 
+def cargar_filas_base_datos():
+    filas_csv = []
+    with open("/workspaces/ista-python-curso-2023/datos/estudiante.csv", "r") as alumnos:
+        reader = csv.reader(alumnos)
+        filas_csv = [fila for fila in reader]
+    encabezados = filas_csv.pop(0)
+    return encabezados, filas_csv
 
 @app.route("/hola_mundo")
 def hola_mundo():
@@ -59,6 +66,17 @@ def contar_asistencia():
         if fila[0]==cedula_est and fila[1]==curso_esperado:
             lista_filtrada.append(fila)
         else:
-            return f'0 , No hay asistencias para la cedula: {cedula_est} en el curso: {curso_esperado}'
+            return f'0 , No hay asistencias para la cedula: {cedula_est} en el curso: {curso_esperado}', 404
 
     return f'El total de asistencias es {len(lista_filtrada)}, para la cedula: {cedula_est} en el curso: {curso_esperado}'
+
+
+
+@app.route("/reporte_alumnos")
+def tabla_alumnos():
+    encabezados, filas_csv = cargar_filas_base_datos()
+    html = flask.render_template(
+        "tabla_alumnos.html",
+        encabezados=encabezados, filas=filas_csv
+    )
+    return html

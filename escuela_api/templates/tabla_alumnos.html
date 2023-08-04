@@ -1,0 +1,18 @@
+<table border='1' style='border-collapse:collapse,background-attachment: fixed;'>
+    <tr style="color: rgb(255, 255, 255); background-color: rgba(26, 246, 246, 0.732);t">
+        <th>{{encabezados[0]}}</th>
+        <th>{{encabezados[1]}}</th>
+        <th>{{encabezados[2]}}</th>
+        <th>{{encabezados[3]}}</th>
+        <th>{{encabezados[4]}}</th>
+    </tr>
+    {% for fila in filas %}
+    <TR style="background-color: rgba(29, 233, 233, 0.255);">
+       <TD>{{fila[0]}}</TD>
+       <TD>{{fila[1]}}</TD>
+       <TD>{{fila[2]}}</TD>
+       <TD>{{fila[3]}}</TD>
+       <TD>{{fila[4]}}</TD>
+    </TR>
+    {% endfor %}
+</table>
